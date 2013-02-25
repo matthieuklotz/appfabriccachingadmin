@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:iis="http://schemas.microsoft.com/wix/IIsExtension">
+  <Fragment>
+    <ComponentGroup Id="Libraries_Services">
+      <Component Id="Libraries.Server" Guid="776FC074-C7B7-4D8E-9408-FD770FB11992" Directory="InstallFolder_Services_Libraries_Server">
+        <File Id="Servicse_CommonServiceLocator" DiskId="1" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.SolutionDir)\Libraries\Microsoft.Practices.ServiceLocation.dll"  Vital="yes" KeyPath="no"/>
+      </Component>
+    </ComponentGroup>
+    
+    <ComponentGroup Id="CodeContractsComponents_Service">
+      <Component Id="ServiceCodeContracts" Guid="22944F75-5D40-4DF8-B7E5-BEB5F821E74A" Directory="InstallFolder_Services_CodeContracts">
+        <File Id="Services_CommonCodeContractsDll" DiskId="1"  Name="AppFabric.Admin.Common.Contracts.dll" Source="$(var.AppFabric.Admin.Common.TargetDir)\CodeContracts\AppFabric.Admin.Common.Contracts.dll" Vital="yes" KeyPath="no" />
+        <File Id="Services_ServiceContractsCodeContractsDll" DiskId="1"  Name="AppFabric.Admin.Service.ServiceContracts.Contracts.dll" Source="$(var.AppFabric.Admin.Service.ServiceContracts.TargetDir)\CodeContracts\AppFabric.Admin.Service.ServiceContracts.Contracts.dll" Vital="yes" KeyPath="no"/>
+        <File Id="Services_DataAccessCodeContractsDll" DiskId="1"  Name="AppFabric.Admin.Service.DataAccess.Contracts.dll" Source="$(var.AppFabric.Admin.Service.DataAccess.TargetDir)\CodeContracts\AppFabric.Admin.Service.DataAccess.Contracts.dll" Vital="yes" KeyPath="no"/>
+        <File Id="Services_BusinessLogicCodeContractsDll" DiskId="1"  Name="AppFabric.Admin.Service.BusinessLogic.Contracts.dll" Source="$(var.AppFabric.Admin.Service.BusinessLogic.TargetDir)\CodeContracts\AppFabric.Admin.Service.BusinessLogic.Contracts.dll" Vital="yes" KeyPath="no"/>
+        <File Id="Services_ServiceImplementationCodeContractsDll" DiskId="1"  Name="AppFabric.Admin.Service.ServiceImplementation.Contracts.dll" Source="$(var.AppFabric.Admin.Service.ServiceImplementation.TargetDir)\CodeContracts\AppFabric.Admin.Service.ServiceImplementation.Contracts.dll" Vital="yes" KeyPath="no"/>
+        <File Id="Services_ServiceHostExecutableCodeContracts" DiskId="1"  Name="AppFabric.Admin.Service.ServiceHost.Contracts.dll" Source="$(var.AppFabric.Admin.Service.ServiceHost.TargetDir)\CodeContracts\AppFabric.Admin.Service.ServiceHost.Contracts.dll" Vital="yes" KeyPath="no"/>
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="NugetPackages.Services">
+      <Component Id="NugetPackages.Services.Common" Guid="C829C8B9-F9F9-4C4E-8142-9466F388E4E8" Directory="InstallFolder_Services_NugetPackages_Common">
+        <File Id="Services_Postsharp" DiskId="1" Name="PostSharp.dll" Source="$(var.SolutionDir)\packages\PostSharp.2.1.7.29\lib\net20\PostSharp.dll" Vital="yes" KeyPath="no" />
+        <File Id="Services_Unity" DiskId="1" Name="Microsoft.Practices.Unity.dll" Source="$(var.SolutionDir)\packages\Unity.3.0.1208-Preview\lib\Net45\Microsoft.Practices.Unity.dll"  Vital="yes" KeyPath="no"/>
+        <File Id="Services_UnityConfiguration" DiskId="1" Name="Microsoft.Practices.Unity.Configuration.dll" Source="$(var.SolutionDir)\packages\Unity.3.0.1208-Preview\lib\Net45\Microsoft.Practices.Unity.Configuration.dll"  Vital="yes" KeyPath="no"/>
+        <File Id="Services_WcfContrib" DiskId="1" Name="WcfContrib.dll" Source="$(var.SolutionDir)\packages\WCFContrib.2.1.1\lib\40\WcfContrib.dll"  Vital="yes" KeyPath="no"/>
+        <File Id="Services_NlogDll" DiskId="1" Name="NLog.dll" Source="$(var.SolutionDir)\packages\NLog.2.0.0.2000\lib\net40\NLog.dll"  Vital="yes" KeyPath="no"/>
+        <File Id="Services_OmuValueInjecter" DiskId="1"  Name="Omu.ValueInjecter.dll" Source="$(var.SolutionDir)\packages\ValueInjecter.2.3.3\lib\net35\Omu.ValueInjecter.dll" Vital="yes" KeyPath="no"/>
+      </Component>
+    </ComponentGroup>
+
+      <ComponentGroup Id="ServicesComponents" Directory="InstallFolder_Services">
+      <Component Id="ServiceHost" Guid="89A8FC40-5DB3-482C-8B9E-8656DA3C106E">
+        <CreateFolder/>
+        <File Id="Services_CommonDll"  DiskId="1" Name="$(var.AppFabric.Admin.Common.TargetFileName)" Source="$(var.AppFabric.Admin.Common.TargetPath)" Vital="yes" KeyPath="no" />
+        <File Id="Services_DataAccessDll" DiskId="1" Name="$(var.AppFabric.Admin.Service.DataAccess.TargetFileName)" Source="$(var.AppFabric.Admin.Service.DataAccess.TargetPath)" Vital="yes" KeyPath="no"/>
+        <File Id="Services_BusinessEntitiesDll" DiskId="1"  Name="$(var.AppFabric.Admin.Service.BusinessEntities.TargetFileName)" Source="$(var.AppFabric.Admin.Service.BusinessEntities.TargetPath)" Vital="yes" KeyPath="no"/>
+        <File Id="Services_BusinessLogicDll" DiskId="1"  Name="$(var.AppFabric.Admin.Service.BusinessLogic.TargetFileName)" Source="$(var.AppFabric.Admin.Service.BusinessLogic.TargetPath)" Vital="yes" KeyPath="no"/>
+        <File Id="Services_MessageContractsDll" DiskId="1"  Name="$(var.AppFabric.Admin.Service.MessageContracts.TargetFileName)" Source="$(var.AppFabric.Admin.Service.MessageContracts.TargetPath)" Vital="yes" KeyPath="no"/>
+        <File Id="Services_DataContractsDll" DiskId="1"  Name="$(var.AppFabric.Admin.Service.DataContracts.TargetFileName)" Source="$(var.AppFabric.Admin.Service.DataContracts.TargetPath)" Vital="yes" KeyPath="no"/>
+        <File Id="Services_ServiceContractsDll" DiskId="1"  Name="$(var.AppFabric.Admin.Service.ServiceContracts.TargetFileName)" Source="$(var.AppFabric.Admin.Service.ServiceContracts.TargetPath)" Vital="yes" KeyPath="no"/>
+        <File Id="Services_FaultContractsDll" DiskId="1"  Name="$(var.AppFabric.Admin.Service.FaultContracts.TargetFileName)" Source="$(var.AppFabric.Admin.Service.FaultContracts.TargetPath)" Vital="yes" KeyPath="no"/>
+        <File Id="Services_ServiceImplementationDll" DiskId="1"  Name="$(var.AppFabric.Admin.Service.ServiceImplementation.TargetFileName)" Source="$(var.AppFabric.Admin.Service.ServiceImplementation.TargetPath)" Vital="yes" KeyPath="no"/>
+        <File Id="Services_ServiceHostExecutableConfig" DiskId="1"  Name="$(var.AppFabric.Admin.Service.ServiceHost.TargetFileName).config" Source="$(var.AppFabric.Admin.Service.ServiceHost.TargetPath).config" Vital="yes" />
+        <File Id="Services_ServiceHostExecutable" DiskId="1"  Name="$(var.AppFabric.Admin.Service.ServiceHost.TargetFileName)" Source="$(var.AppFabric.Admin.Service.ServiceHost.TargetPath)" Vital="yes" KeyPath="yes"/>
+        <File Id="Services_PfxCertificate" DiskId="1" Name="Server.pfx" Source="Server.pfx" Vital="yes" KeyPath="no" />
+        <ServiceInstall Id="Services_AdminServiceInstaller" DisplayName="AppFabric Caching Administration Service" Name="AppFabricCachingAdministrationService" Account="LocalSystem"  Start="auto" Type="shareProcess" ErrorControl="critical" Interactive="no" Vital="no" />
+        <ServiceControl Id="Services_StartAdminService" Start="install" Stop="both" Remove="uninstall" Name="AppFabricCachingAdministrationService" Wait="no" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

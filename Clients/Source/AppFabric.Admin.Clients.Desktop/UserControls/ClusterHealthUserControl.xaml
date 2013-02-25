@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="AppFabric.Admin.Clients.Desktop.UserControls.ClusterHealthUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:data="clr-namespace:AppFabric.Admin.Clients.Common.Data;assembly=AppFabric.Admin.Clients.Common"
+             xmlns:converters="clr-namespace:AppFabric.Admin.Clients.Desktop.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="600">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converters:CacheServiceStatusToImageConverter x:Key="CacheServiceStatusToImageConverter" /> 
+            <DataTemplate x:Key="CacheHostHealthTemplate" DataType="{x:Type data:CacheHostHealth}">
+                <Expander Header="{Binding}">
+                    <Expander.HeaderTemplate>
+                        <DataTemplate>                
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding ServiceStatus, Mode=OneWay, Converter={StaticResource CacheServiceStatusToImageConverter}}" />
+                                <StackPanel>
+                                    <TextBlock Text="{Binding HostName, Mode=OneWay}" />
+                                    <TextBlock Text="{Binding ServiceStatus, Mode=OneWay}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </Expander.HeaderTemplate>
+                    <ListView  ItemsSource="{Binding NamedCaches, Mode=OneWay}">
+                        <ListView.Resources>
+                            <DataTemplate DataType="{x:Type data:NamedCacheHealth}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Skins/namedCache.ico" Width="32" Height="32" />
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Name, Mode=OneWay}" />
+                                        <TextBlock Text="{Binding State, Mode=OneWay}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.Resources>
+                    </ListView>
+                </Expander>
+            </DataTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <ListView ItemsSource="{Binding CacheHosts, Mode=OneWay}" ItemTemplate="{StaticResource CacheHostHealthTemplate}">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}" 
+                                   ItemWidth="{Binding (ListView.View).ItemWidth, RelativeSource={RelativeSource AncestorType=ListView}}" 
+                                   MinWidth="{Binding ItemWidth, RelativeSource={RelativeSource Self}}" 
+                                   ItemHeight="{Binding (ListView.View).ItemHeight, RelativeSource={RelativeSource AncestorType=ListView}}" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
+
+    </Grid>
+</UserControl>

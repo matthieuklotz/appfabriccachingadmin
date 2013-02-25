@@ -1,0 +1,121 @@
+﻿<UserControl x:Class="AppFabric.Admin.Clients.Desktop.UserControls.HelpUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lex="clr-namespace:WPFLocalizeExtension.Extensions;assembly=WPFLocalizeExtension"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="650"
+             DataContext="{Binding Help, Source={StaticResource Locator}}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Skins/MainSkin.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid x:Name="HelpUCGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="310"/>
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <Grid x:Name="SupportGrid" Grid.Row="0" Grid.Column="0">
+            <StackPanel>
+                <TextBlock Text="{lex:LocText Key=SupportTitle, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Style="{StaticResource BackStageTextBlockLevel2Title}" />
+                <Button Style="{StaticResource BackStageImageTextButton64x300Style}" Command="{Binding OpenDocumentationCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Skins/help.ico" />
+                        <StackPanel>
+                            <TextBlock Text="{lex:LocText Key=GettingStartedTitle, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}"  Style="{StaticResource BackstageMargin5Left}" />
+                            <TextBlock Text="{lex:LocText Key=GettingStartedDescription, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Style="{StaticResource BackstageButtonDescriptionStyle}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Button>
+
+                <Button Style="{StaticResource BackStageImageTextButton64x300Style}" Command="{Binding OpenTrackerCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Skins/bugs.ico" />
+                        <StackPanel>
+                            <TextBlock Text="{lex:LocText Key=ReportBugTitle, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Style="{StaticResource BackstageMargin5Left}"/>
+                            <TextBlock Text="{lex:LocText Key=ReportBugDescription, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Style="{StaticResource BackstageButtonDescriptionStyle}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Button>
+
+                <Button Style="{StaticResource BackStageImageTextButton64x300Style}" Command="{Binding OpenForumCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Skins/contactus.ico" />
+                        <StackPanel>
+                            <TextBlock Text="{lex:LocText Key=ContactUsTitle, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Style="{StaticResource BackstageMargin5Left}"/>
+                            <TextBlock Text="{lex:LocText Key=ContactUsDescription, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Style="{StaticResource BackstageButtonDescriptionStyle}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
+        
+        <Grid x:Name="AboutProductGrid" Grid.Row="0" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Image x:Name="ProductImage" Grid.Column="0" Grid.Row="0" Source="/Skins/appfabric_admin_services_logo.png" Style="{StaticResource BackStageImageApplicationLogo}"  />
+            <StackPanel Grid.Column="0" Grid.Row="1">
+                <TextBlock Style="{StaticResource BackStageTextBlockLevel2Title}">
+                     <TextBlock.Text>
+                         <MultiBinding StringFormat="{}{0} {1}" >
+                            <MultiBinding.Bindings>
+                                <lex:BLoc Key="AppFabric.Admin.Clients.Desktop.Resources:Menu:AboutProduct" />
+                                <lex:BLoc Key="AppFabric.Admin.Clients.Desktop:Resources:ApplicationName" />
+                            </MultiBinding.Bindings>                          
+                        </MultiBinding>                              
+                     </TextBlock.Text>
+                </TextBlock>
+                <TextBlock>
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} {1}" >
+                            <MultiBinding.Bindings>
+                                <lex:BLoc Key="AppFabric.Admin.Clients.Desktop.Resources:Menu:ProductVersion" />
+                                <Binding  Path="ProductVersion" />
+                            </MultiBinding.Bindings>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <TextBlock Text="{lex:LocText Key=MoreInfoAboutLicense, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Style="{StaticResource BackStageTextBlockLink}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDown">
+                            <i:InvokeCommandAction Command="{Binding OpenHomeCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBlock>
+                <Grid Grid.Column="0" Grid.Row="2" Margin="-5 0 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"   />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{lex:LocText Key=ContributorsLabel, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Style="{StaticResource BackstageMargin5Left}" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{lex:LocText Key=Contributors, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{lex:LocText Key=SponsorsLabel, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Style="{StaticResource BackstageMargin5Left}" />
+                    <StackPanel Grid.Row="1" Grid.Column="1">
+                        <Image Source="/Skins/cdiscount.png" />
+                        <Image Source="/Skins/postsharp-lge.png" Margin="0 10 0 0" />
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

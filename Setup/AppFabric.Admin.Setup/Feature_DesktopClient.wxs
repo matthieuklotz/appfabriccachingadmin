@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <ComponentGroup Id="Libraries.Clients">
+      <Component Id="Libraries.Desktop" Guid="F4A054A6-EF9C-44B6-90EC-717806C54E65" Directory="InstallFolder_Clients_Libraries_Desktop">
+        <File Id="Desktop_Fluent" DiskId="1"  Name="Fluent.dll" Source="$(var.SolutionDir)\Libraries\Fluent.dll" Vital="yes" KeyPath="no"/>
+        <File Id="Desktop_NavigationPane" DiskId="1" Name="NavigationPane.dll" Source="$(var.SolutionDir)\Libraries\NavigationPane.dll" Vital="yes" KeyPath="no"/>
+      </Component>
+    </ComponentGroup>
+    
+    <ComponentGroup Id="NugetPackages.Clients">
+      <Component Id="NugetPackages.Clients.Common" Guid="7E385669-8F18-4097-996F-60714226E583" Directory="InstallFolder_Clients_NugetPackages_Common">
+        <File Id="Desktop_Postsharp" DiskId="1" Name="PostSharp.dll" Source="$(var.SolutionDir)\packages\PostSharp.2.1.7.29\lib\net20\PostSharp.dll" Vital="yes" KeyPath="no" />      
+        <File Id="Desktop_Unity" DiskId="1" Name="Microsoft.Practices.Unity.dll" Source="$(var.SolutionDir)\packages\Unity.3.0.1208-Preview\lib\Net45\Microsoft.Practices.Unity.dll"  Vital="yes" KeyPath="no"/>
+        <File Id="Desktop_UnityConfiguration" DiskId="1" Name="Microsoft.Practices.Unity.Configuration.dll" Source="$(var.SolutionDir)\packages\Unity.3.0.1208-Preview\lib\Net45\Microsoft.Practices.Unity.Configuration.dll"  Vital="yes" KeyPath="no"/>
+        <File Id="Desktop_WcfContrib" DiskId="1" Name="WcfContrib.dll" Source="$(var.SolutionDir)\packages\WCFContrib.2.1.1\lib\40\WcfContrib.dll"  Vital="yes" KeyPath="no"/>
+        <File Id="Desktop_NlogDll" DiskId="1" Name="NLog.dll" Source="$(var.SolutionDir)\packages\NLog.2.0.0.2000\lib\net40\NLog.dll"  Vital="yes" KeyPath="no"/>
+        <File Id="Desktop_OmuValueInjecter" DiskId="1"  Name="Omu.ValueInjecter.dll" Source="$(var.SolutionDir)\packages\ValueInjecter.2.3.3\lib\net35\Omu.ValueInjecter.dll" Vital="yes" KeyPath="no"/>
+      </Component>
+      <Component Id="NugetPackages.Clients.Desktop" Guid="FDF504A7-0DD7-4933-A690-67BCD5033F02" Directory="InstallFolder_Clients_NugetPackages_Desktop">
+        <File Id="Desktop_OxyPlot" DiskId="1"  Name="OxyPlot.dll" Source="$(var.SolutionDir)\packages\OxyPlot.Core.2013.1.32.1\lib\portable-net4+sl4+wp71+win8\OxyPlot.dll" Vital="yes" KeyPath="no"/>
+        <File Id="Desktop_OxyPlotWpf" DiskId="1"  Name="OxyPlot.Wpf.dll" Source="$(var.SolutionDir)\packages\OxyPlot.Wpf.2013.1.32.1\lib\NET45\OxyPlot.Wpf.dll" Vital="yes" KeyPath="no"/>
+        <File Id="Desktop_OxyPlotXps" DiskId="1"  Name="OxyPlot.Xps.dll" Source="$(var.SolutionDir)\packages\OxyPlot.Wpf.2013.1.32.1\lib\NET45\OxyPlot.Xps.dll" Vital="yes" KeyPath="no"/>
+        <File Id="Desktop_WpfConvertersHelperTrinity" DiskId="1"  Name="Kent.Boogaart.HelperTrinity.dll" Source="$(var.SolutionDir)\packages\Kent.Boogaart.HelperTrinity.1.5.0.0\lib\net45\Kent.Boogaart.HelperTrinity.dll" Vital="yes" KeyPath="no"/>
+        <File Id="Desktop_WpfConverters" DiskId="1"  Name="Kent.Boogaart.Converters.dll" Source="$(var.SolutionDir)\packages\Kent.Boogaart.Converters.1.3.0.0\lib\net40\Kent.Boogaart.Converters.dll" Vital="yes" KeyPath="no"/>
+        <File Id="Desktop_XAMLMarkupExtensions" DiskId="1"  Name="XAMLMarkupExtensions.dll" Source="$(var.SolutionDir)\packages\XAMLMarkupExtensions.1.1.5\lib\net40\XAMLMarkupExtensions.dll" Vital="yes" KeyPath="no"/>
+        <File Id="Desktop_WPFLocalizeExtension" DiskId="1"  Name="WPFLocalizeExtension.dll" Source="$(var.SolutionDir)\packages\WpfLocalizeExtension.2.1.2\lib\net35\WPFLocalizeExtension.dll" Vital="yes" KeyPath="no"/>
+        <File Id="Desktop_BlendSDK" DiskId="1" Name="System.Windows.Interactivity.dll" Source="$(var.SolutionDir)\packages\MvvmLightLibs.4.1.27.0\lib\net45\System.Windows.Interactivity.dll" Vital="yes" KeyPath="no"/>
+        <File Id="Desktop_CommonServiceLocatorClient" DiskId="1" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.SolutionDir)\packages\CommonServiceLocator.1.0\lib\net35\Microsoft.Practices.ServiceLocation.dll" Vital="yes" KeyPath="no"/>
+        <File Id="Desktop_MvvmLightWpf45" DiskId="1" Name="GalaSoft.MvvmLight.WPF45.dll" Source="$(var.SolutionDir)\packages\MvvmLightLibs.4.1.27.0\lib\net45\GalaSoft.MvvmLight.WPF45.dll" Vital="yes" KeyPath="no"/>
+        <File Id="Desktop_MvvmLightExtrasWpf45" DiskId="1"  Name="GalaSoft.MvvmLight.Extras.WPF45.dll" Source="$(var.SolutionDir)\packages\MvvmLightLibs.4.1.27.0\lib\net45\GalaSoft.MvvmLight.Extras.WPF45.dll" Vital="yes" KeyPath="no"/>
+    </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="CodeContractsComponents_Clients">
+      <Component Id="CodeContracts_Clients" Guid="5959E27D-5B76-4C0C-AB37-885F1B6D07B5" Directory="InstallFolder_Clients_CodeContracts">
+        <File Id="Desktop_ServiceContractsCodeContractsDll" DiskId="1"  Name="AppFabric.Admin.Service.ServiceContracts.Contracts.dll" Source="$(var.AppFabric.Admin.Service.ServiceContracts.TargetDir)\CodeContracts\AppFabric.Admin.Service.ServiceContracts.Contracts.dll" Vital="yes" KeyPath="no"/>
+        <File Id="Desktop_CommonCodeContractsDll" DiskId="1"  Name="AppFabric.Admin.Common.Contracts.dll" Source="$(var.AppFabric.Admin.Common.TargetDir)\CodeContracts\AppFabric.Admin.Common.Contracts.dll" Vital="yes" KeyPath="no" />
+        <File Id="Desktop_ClientCommonCodeContractsDll" DiskId="1"  Name="AppFabric.Admin.Clients.Common.Contracts.dll" Source="$(var.AppFabric.Admin.Clients.Common.TargetDir)\CodeContracts\AppFabric.Admin.Clients.Common.Contracts.dll" Vital="yes" KeyPath="no" />
+        <File Id="Desktop_DesktopCodeContractsDll" DiskId="1"  Name="AppFabric.Admin.Clients.Desktop.Contracts.dll" Source="$(var.AppFabric.Admin.Clients.Desktop.TargetDir)\CodeContracts\AppFabric.Admin.Clients.Desktop.Contracts.dll" Vital="yes" KeyPath="no" />
+      </Component>
+    </ComponentGroup>
+    
+    <ComponentGroup Id="DesktopClientComponents" Directory="InstallFolder_Clients_Desktop">     
+      <Component Id="DesktopClient" Guid="1A38AF31-4609-4B34-911F-78129EEC7375">
+        <CreateFolder/>
+        <File Id="Desktop_MessageContractsDll" DiskId="1"  Name="$(var.AppFabric.Admin.Service.MessageContracts.TargetFileName)" Source="$(var.AppFabric.Admin.Service.MessageContracts.TargetPath)" Vital="yes" KeyPath="no"/>
+        <File Id="Desktop_DataContractsDll" DiskId="1"  Name="$(var.AppFabric.Admin.Service.DataContracts.TargetFileName)" Source="$(var.AppFabric.Admin.Service.DataContracts.TargetPath)" Vital="yes" KeyPath="no"/>
+        <File Id="Desktop_ServiceContractsDll" DiskId="1"  Name="$(var.AppFabric.Admin.Service.ServiceContracts.TargetFileName)" Source="$(var.AppFabric.Admin.Service.ServiceContracts.TargetPath)" Vital="yes" KeyPath="no"/>
+        <File Id="Desktop_FaultContractsDll" DiskId="1"  Name="$(var.AppFabric.Admin.Service.FaultContracts.TargetFileName)" Source="$(var.AppFabric.Admin.Service.FaultContracts.TargetPath)" Vital="yes" KeyPath="no"/>
+        <File Id="Desktop_CommonDll"  DiskId="1" Name="$(var.AppFabric.Admin.Common.TargetFileName)" Source="$(var.AppFabric.Admin.Common.TargetPath)" Vital="yes" KeyPath="no" />
+        <File Id="Desktop_CommonClientDll"  DiskId="1" Name="$(var.AppFabric.Admin.Clients.Common.TargetFileName)" Source="$(var.AppFabric.Admin.Clients.Common.TargetPath)" Vital="yes" KeyPath="no" />
+        <File Id="Desktop_DesktopClient"  DiskId="1" Name="$(var.AppFabric.Admin.Clients.Desktop.TargetFileName)" Source="$(var.AppFabric.Admin.Clients.Desktop.TargetPath)" Vital="yes" KeyPath="no" />
+        <File Id="Desktop_DesktopClientConfig"  DiskId="1" Name="$(var.AppFabric.Admin.Clients.Desktop.TargetFileName).config" Source="$(var.AppFabric.Admin.Clients.Desktop.TargetPath).config" Vital="yes" KeyPath="no" />
+      </Component> 
+    </ComponentGroup>
+  
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="DesktopClientApplicationShortcut" Guid="D74F3F0F-4B8A-4996-8AF2-072FAB2B45BF">
+        <Shortcut Id="ApplicationStartMenuShortcut"
+                  Name="Desktop Client"
+                  Description="Client for AppFabric Administration Services"
+                  Target="[InstallFolder_Clients_Desktop]\$(var.AppFabric.Admin.Clients.Desktop.TargetFileName)"
+                  WorkingDirectory="InstallFolder_Clients_Desktop"/>
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\Microsoft\AppFabric Administration Services" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+</Wix>

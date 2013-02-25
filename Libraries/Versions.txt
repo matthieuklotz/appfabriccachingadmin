@@ -1,0 +1,24 @@
+Fluent Ribbon Control Suite :
+----------------
+Dlls :
+	- Fluent.dll
+WebSite : http://fluent.codeplex.com
+Release : Built from sources, changeset 4422d21c4953, 02/15/2013 (with latest blend sdk)
+
+
+Outlook 2010 like Navigation Pane WPF Control :
+----------------
+Dlls :
+	- NavigationPane.dll
+	- NavigationPane.Design.dll
+WebSite : http://navigationpane.codeplex.com
+Release : v1.0.4764.30675
+
+
+Common Service Locator :
+---------------
+Dlls :
+	- Microsoft.Practices.ServiceLocation.dll
+WebSite : see Entlib or Unity
+
+

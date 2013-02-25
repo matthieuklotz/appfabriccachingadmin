@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Product Id="*" Name="AppFabric Caching Administration Services" Language="1033" Version="1.0.0.0" Manufacturer="Matthieu Klotz" UpgradeCode="93ba2700-535c-45f8-9b32-c13a62414816">
+    <Package InstallerVersion="405" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated" Manufacturer="Matthieu Klotz" />
+
+    <Condition Message="You need to be an administrator to install this product.">
+      Privileged
+    </Condition>
+
+    <PropertyRef Id="NETFRAMEWORK45"/>
+    <Condition Message="This setup requires the .NET Framework 4.5 installed.">
+      <![CDATA[Installed OR NETFRAMEWORK45]]>
+    </Condition>
+
+    <Property Id="POWERSHELL30">
+      <RegistrySearch Id="PowerShell30" Root="HKLM" Key="SOFTWARE\Microsoft\PowerShell\3" Name="Install" Type="raw"  />
+    </Property>
+
+    <Condition Message="This setup requires PowerShell v3.0 installed.">
+      <![CDATA[Installed OR POWERSHELL30]]>
+    </Condition>
+
+    <Property Id="CertUtilProperty">certutil.exe</Property>
+    <CustomAction Id="InstallCertificate" Execute="deferred" Property="CertUtilProperty" ExeCommand='-importPFX -f -p "" "[InstallFolder_Services]Server.pfx"' Return="check"/>
+
+    <Property Id="PowerShellProperty">powershell.exe</Property>
+    <CustomAction Id="PowerShellSetExecutionPolicy" Execute="deferred" Property="PowerShellProperty" ExeCommand='-Command {Set-ExecutionPolicy -ExecutionPolicy Unrestricted}' Return="check"/>
+
+    <InstallExecuteSequence>
+      <Custom Action="PowerShellSetExecutionPolicy" After="InstallFiles">
+        <![CDATA[NOT Installed AND (&ServicesFeature=3) AND NOT(!ServicesFeature=3)]]>
+      </Custom>
+      <Custom Action="InstallCertificate" After="InstallFiles">
+        <![CDATA[NOT Installed AND (&ServicesFeature=3) AND NOT(!ServicesFeature=3)]]>
+      </Custom>
+    </InstallExecuteSequence>
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <Feature Id="ClientFeature" Title="Administration Client" Level="1">
+      <ComponentRef Id="Libraries.Desktop"/>
+      <ComponentRef Id="NugetPackages.Clients.Common"/>
+      <ComponentRef Id="NugetPackages.Clients.Desktop"/>
+      <ComponentRef Id="CodeContracts_Clients" />
+      <ComponentGroupRef Id="DesktopClientComponents" />
+      <ComponentRef Id="DesktopClientApplicationShortcut"/>
+    </Feature>
+    <Feature Id="ServicesFeature" Title="Administration Services" Level="1" >
+      <ComponentRef Id="Libraries.Server"/>
+      <ComponentRef Id="NugetPackages.Services.Common"/>
+      <ComponentRef Id="ServiceCodeContracts" />
+      <ComponentGroupRef Id="ServicesComponents" />
+    </Feature>
+
+    <UIRef Id="WixUI_FeatureTree" />
+    <UIRef Id="WixUI_ErrorProgressText" />
+    <WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
+    <Icon Id="ProductIcon" SourceFile="appfabric_admin_services.ico"/>
+  </Product>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFiles64Folder">
+        <Directory Id="InstallFolder" Name="AppFabric Admnistration Services">
+          <Directory Id="InstallFolder_Services" Name="Services">
+            <Directory Id="InstallFolder_Services_Libraries_Server" />
+            <Directory Id="InstallFolder_Services_NugetPackages_Common"  />
+            <Directory Id="InstallFolder_Services_CodeContracts" Name="CodeContracts" />
+          </Directory>
+          <Directory Id="InstallFolder_Clients_Desktop" Name="Clients">
+            <Directory Id="InstallFolder_Clients_Libraries_Desktop" />
+            <Directory Id="InstallFolder_Clients_NugetPackages_Common"  />
+            <Directory Id="InstallFolder_Clients_NugetPackages_Desktop"  />
+            <Directory Id="InstallFolder_Clients_CodeContracts" Name="CodeContracts" />
+          </Directory>
+        </Directory>
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="AppFabric Caching Administration Services"/>
+      </Directory>
+    </Directory>
+  </Fragment>
+</Wix>

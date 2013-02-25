@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+      <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">$(MSBuildProjectDirectory)\..\</SolutionDir>
+  </PropertyGroup>
+  <UsingTask TaskName="Version" AssemblyFile="$(SolutionDir)\MSBuild\MSBuild.Community.Tasks.dll" />
+  <UsingTask TaskName="AssemblyInfo" AssemblyFile="$(SolutionDir)\MSBuild\MSBuild.Community.Tasks.dll" />
+  <Import Project="$(SolutionDir)\MSBuild\MSBuild.Community.Tasks.Targets" Condition="Exists('$(SolutionDir)\MSBuild\MSBuild.Community.Tasks.Targets')" />
+  <Target Name="BeforeBuild">
+      <Version VersionFile="Properties\version.txt" Major="1" Minor="0" BuildType="Automatic" StartDate="01/01/2013" RevisionType="BuildIncrement">
+        <Output TaskParameter="Major" PropertyName="Major" />
+        <Output TaskParameter="Minor" PropertyName="Minor" />
+        <Output TaskParameter="Build" PropertyName="Build" />
+        <Output TaskParameter="Revision" PropertyName="Revision" />
+      </Version>
+      <AssemblyInfo CodeLanguage="CS"
+                    OutputFile="Properties\VersionInfo.cs"
+                    AssemblyVersion="$(Major).$(Minor)"
+                    AssemblyFileVersion="$(Major).$(Minor).$(Build).$(Revision)" />
+  </Target>
+</Project>

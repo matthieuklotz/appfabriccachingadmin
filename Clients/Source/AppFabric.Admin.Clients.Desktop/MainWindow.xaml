@@ -1,0 +1,169 @@
+﻿<fluent:MetroWindow
+        x:Class="AppFabric.Admin.Clients.Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:fluent="clr-namespace:Fluent;assembly=Fluent"
+        xmlns:stema="NavigationPane"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:lex="clr-namespace:WPFLocalizeExtension.Extensions;assembly=WPFLocalizeExtension"
+        xmlns:uc="clr-namespace:AppFabric.Admin.Clients.Desktop.UserControls"
+        xmlns:converters="http://schemas.kent.boogaart.com/converters"
+        xmlns:myconverters="clr-namespace:AppFabric.Admin.Clients.Desktop.Converters"
+        xmlns:vm="clr-namespace:AppFabric.Admin.Clients.Desktop.ViewModel"
+        Height="600"
+        Width="800"
+        ResizeMode="CanResizeWithGrip"
+        RibbonThemeColor="LightGray"
+        Title="{lex:LocText Key=ApplicationName, Dict=Resources, Assembly=AppFabric.Admin.Clients.Desktop}"
+        Icon="/Skins/appfabric_admin_services.ico"
+        DataContext="{Binding Main, Source={StaticResource Locator}}">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding WindowLoadedCommand, Mode=OneWay}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Skins/MainSkin.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <myconverters:ValueToTypeConverter x:Key="ValueToTypeConverter" />
+
+            <DataTemplate x:Key="EnvironmentViewModelTemplate" DataType="{x:Type vm:EnvironmentViewModel}">
+                <uc:ClusterTreeViewUserControl DataContext="{Binding}" />
+            </DataTemplate>
+
+            <Style x:Key="InactiveRibbonGroupBox" TargetType="{x:Type fluent:RibbonGroupBox}">
+                <Setter Property="IsEnabled" Value="False"/>
+            </Style>
+
+            <Style x:Key="AdminClusterRibbonGroupBoxStyle" TargetType="{x:Type fluent:RibbonGroupBox}" BasedOn="{StaticResource ResourceKey=InactiveRibbonGroupBox}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding SelectedValue, Mode=OneWay, Converter={StaticResource ValueToTypeConverter}}" Value="{x:Type vm:ClusterViewModel}">
+                        <Setter Property="IsEnabled" Value="True"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="HostsClusterRibbonGroupBoxStyle" TargetType="{x:Type fluent:RibbonGroupBox}" BasedOn="{StaticResource ResourceKey=InactiveRibbonGroupBox}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding SelectedValue, Mode=OneWay, Converter={StaticResource ValueToTypeConverter}}" Value="{x:Type vm:CacheHostViewModel}">
+                        <Setter Property="IsEnabled" Value="True"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="NamedCacheRibbonGroupBoxStyle" TargetType="{x:Type fluent:RibbonGroupBox}" BasedOn="{StaticResource ResourceKey=InactiveRibbonGroupBox}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding SelectedValue, Mode=OneWay, Converter={StaticResource ValueToTypeConverter}}" Value="{x:Type vm:NamedCacheViewModel}">
+                        <Setter Property="IsEnabled" Value="True"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <DockPanel x:Name="LayoutRoot">
+        <fluent:Ribbon x:Name="MainRibbons" DockPanel.Dock="Top" AutomaticStateManagement="True">
+            <fluent:Ribbon.Menu>
+                <fluent:Backstage Header="{lex:LocText Key=BackstageHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop, Converter={converters:CaseConverter Upper}}" >
+                    <fluent:BackstageTabControl>
+                        <fluent:BackstageTabItem  x:Name="EnvironmentsBackstageTabItem" Header="{lex:LocText Key=EnvironmentsHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" >
+                            <uc:EnvironmentManagementUserControl Style="{StaticResource BackStageUserControl}" DataContext="{Binding}" />
+                        </fluent:BackstageTabItem>
+                        <fluent:BackstageTabItem x:Name="HelpBackstageTabItem" Header="{lex:LocText Key=HelpHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}">
+                            <uc:HelpUserControl Style="{StaticResource BackStageUserControl}" />
+                        </fluent:BackstageTabItem>
+                        <fluent:Button  x:Name="SaveConfigurationButton"
+                                        Header="{lex:LocText Key=SaveConfiguration, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}"
+                                        Icon="Skins/save.png"
+                                        Command="{Binding SaveConfigurationCommand, Mode=OneWay}" />
+                        <fluent:Button  x:Name="ExitApplicationButton"
+                                        Header="{lex:LocText Key=ExitApplication, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}"
+                                        Icon="Skins/close.png"
+                                        Command="{Binding CloseCommand, Mode=OneWay}" />
+                    </fluent:BackstageTabControl>
+                </fluent:Backstage>
+            </fluent:Ribbon.Menu>
+
+            <fluent:RibbonTabItem x:Name="MonitoringRibbon" Header="{lex:LocText Key=MonitoringHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop, Converter={converters:CaseConverter Upper}}">
+                <fluent:RibbonGroupBox Header="{lex:LocText Key=ClusterRibbonGroupBoxHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Style="{StaticResource AdminClusterRibbonGroupBoxStyle}">
+                    <fluent:Button Header="{lex:LocText Key=SearchHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Command="{Binding SearchInClusterCommand}" CommandParameter="{Binding SelectedValue}" Icon="/Skins/search.ico" LargeIcon="/Skins/search.ico" />
+                    <fluent:Button Header="{lex:LocText Key=ClusterHealthHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Command="{Binding GetClusterHealthCommand}" CommandParameter="{Binding SelectedValue}" Icon="/Skins/monitoring.ico" LargeIcon="/Skins/monitoring.ico" />
+                    <fluent:Button Header="{lex:LocText Key=StatisticsHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Command="{Binding GetStatisticsCommand}" CommandParameter="{Binding SelectedValue}" Icon="/Skins/statistics.ico" LargeIcon="/Skins/statistics.ico" />
+                </fluent:RibbonGroupBox>
+                <fluent:RibbonGroupBox Header="{lex:LocText Key=HostsRibbonGroupBoxHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Style="{StaticResource HostsClusterRibbonGroupBoxStyle}">
+                    <fluent:Button Header="{lex:LocText Key=StatisticsHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Command="{Binding GetStatisticsCommand}" CommandParameter="{Binding SelectedValue}" Icon="/Skins/statistics.ico" LargeIcon="/Skins/statistics.ico" />
+                </fluent:RibbonGroupBox>
+                <fluent:RibbonGroupBox Header="{lex:LocText Key=NamedCacheRibbonGroupBoxHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Style="{StaticResource NamedCacheRibbonGroupBoxStyle}">
+                    <fluent:Button Header="{lex:LocText Key=StatisticsHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Command="{Binding GetStatisticsCommand}" CommandParameter="{Binding SelectedValue}" Icon="/Skins/statistics.ico" LargeIcon="/Skins/statistics.ico" />
+                </fluent:RibbonGroupBox>
+            </fluent:RibbonTabItem>
+            <fluent:RibbonTabItem x:Name="AdministrationRibbon" Header="{lex:LocText Key=AdministrationRibbonHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop, Converter={converters:CaseConverter Upper}}">
+                <fluent:RibbonGroupBox Header="{lex:LocText Key=ClusterRibbonGroupBoxHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Style="{StaticResource AdminClusterRibbonGroupBoxStyle}">
+                    <fluent:Button Header="{lex:LocText Key=StartHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Command="{Binding SelectedValue.StartClusterCommand}" Icon="/Skins/cluster_start.ico" LargeIcon="/Skins/cluster_start.ico"/>
+                    <fluent:Button Header="{lex:LocText Key=StopHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Command="{Binding SelectedValue.StopClusterCommand}" Icon="/Skins/cluster_stop.ico" LargeIcon="/Skins/cluster_stop.ico" />
+                    <fluent:Button Header="{lex:LocText Key=RestartHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Command="{Binding SelectedValue.RestartClusterCommand}" Icon="/Skins/cluster_restart.ico" LargeIcon="/Skins/cluster_restart.ico" />
+                </fluent:RibbonGroupBox>
+                <fluent:RibbonGroupBox Header="{lex:LocText Key=HostsRibbonGroupBoxHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Style="{StaticResource HostsClusterRibbonGroupBoxStyle}">
+                    <fluent:Button Header="{lex:LocText Key=StartHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Command="{Binding SelectedValue.StartHostCommand}" Icon="/Skins/server_start.ico" LargeIcon="/Skins/server_start.ico"/>
+                    <fluent:Button Header="{lex:LocText Key=StopHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Command="{Binding SelectedValue.StopHostCommand}" Icon="/Skins/server_stop.ico" LargeIcon="/Skins/server_stop.ico" />
+                    <fluent:Button Header="{lex:LocText Key=RestartHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Command="{Binding SelectedValue.RestartHostCommand}" Icon="/Skins/server_restart.ico" LargeIcon="/Skins/server_restart.ico" />
+                </fluent:RibbonGroupBox>
+            </fluent:RibbonTabItem>
+        </fluent:Ribbon>
+
+        <fluent:StatusBar DockPanel.Dock="Bottom" Height="28">
+            <StackPanel Orientation="Horizontal">
+            </StackPanel>
+        </fluent:StatusBar>
+
+        <stema:NavigationPane x:Name="EnvironmentNavigationPanel"
+                              DockPanel.Dock="Left"
+                              MinWidth="180"
+                              IsDefaultConfigureMenuEnabled="False"
+                              IsSmallItemsVisible="False"
+                              IsPopupOpen="False"
+                              ItemsSource="{Binding Environments, Mode=OneWay}"
+                              ItemContainerStyle="{StaticResource NavigationPaneItemContainerStyle}"
+                              ContentTemplate="{StaticResource EnvironmentViewModelTemplate}">
+            <stema:NavigationPane.BarTitle>
+                <TextBlock Text="{lex:LocText Key=EnvironmentsHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Style="{StaticResource NavigationPaneHeaderStyle}"/>
+            </stema:NavigationPane.BarTitle>
+        </stema:NavigationPane>
+
+        <TabControl x:Name="ContentPanelControl" ItemsSource="{Binding TabItems, Mode=OneWay}">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Name}" Style="{StaticResource TextBlockTabHeaderStyle}" />
+                        <Button Style="{StaticResource TabImageButton20x20Style}" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type fluent:MetroWindow}}, Path=DataContext.CloseTabItemCommand}" CommandParameter="{Binding ElementName=ContentPanelControl, Path=SelectedIndex, Mode=OneWay}">
+                            <Image Source="/Skins/close.png" />
+                        </Button>
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <ContentControl Content="{Binding}">
+                        <ContentControl.Resources>
+                            <DataTemplate DataType="{x:Type vm:SearchViewModel}">
+                                <uc:SearchCacheItemUserControl DataContext="{Binding}" />
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type vm:ClusterHealthViewModel}">
+                                <uc:ClusterHealthUserControl DataContext="{Binding}" />
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type vm:StatisticsViewModel}">
+                                <uc:StatisticsUserControl DataContext="{Binding}" />
+                            </DataTemplate>
+                        </ContentControl.Resources>
+                    </ContentControl>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+    </DockPanel>
+</fluent:MetroWindow>

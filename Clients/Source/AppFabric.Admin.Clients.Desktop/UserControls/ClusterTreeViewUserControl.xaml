@@ -1,0 +1,104 @@
+﻿<UserControl x:Class="AppFabric.Admin.Clients.Desktop.UserControls.ClusterTreeViewUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fluent="clr-namespace:Fluent;assembly=Fluent"
+             xmlns:lex="clr-namespace:WPFLocalizeExtension.Extensions;assembly=WPFLocalizeExtension"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:vm="clr-namespace:AppFabric.Admin.Clients.Desktop.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Skins/MainSkin.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="ClusterStackPanelStyle" TargetType="{x:Type StackPanel}">
+                <Setter Property="Tag" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type fluent:MetroWindow}}, Path=DataContext}" />             
+                <Setter Property="ContextMenu">
+                    <Setter.Value>
+                        <fluent:ContextMenu>
+                            <fluent:MenuItem Header="{lex:LocText Key=AdministrationContextMenuHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Icon="/Skins/control_panel.ico">
+                                <fluent:MenuItem Header="{lex:LocText Key=StartHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Command="{Binding StartClusterCommand}" Icon="/Skins/start.ico" />
+                                <fluent:MenuItem Header="{lex:LocText Key=StopHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Command="{Binding StopClusterCommand}" Icon="/Skins/shutdown.ico" />
+                                <fluent:MenuItem Header="{lex:LocText Key=RestartHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Command="{Binding RestartClusterCommand}" Icon="/Skins/restart.ico" />
+                            </fluent:MenuItem>
+                            <fluent:MenuItem Header="{lex:LocText Key=MonitoringHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Icon="/Skins/monitoring.ico">
+                                <fluent:MenuItem Header="{lex:LocText Key=SearchHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Icon="/Skins/search.ico" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.Tag.SearchInClusterCommand}" CommandParameter="{Binding}" />
+                                <fluent:MenuItem Header="{lex:LocText Key=ClusterHealthHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Icon="/Skins/monitoring.ico" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.Tag.GetClusterHealthCommand}" CommandParameter="{Binding}" />
+                                <fluent:MenuItem Header="{lex:LocText Key=StatisticsHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Icon="/Skins/statistics.ico" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.Tag.GetStatisticsCommand}" CommandParameter="{Binding}" />
+                            </fluent:MenuItem>
+                        </fluent:ContextMenu>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="CacheHostStackPanelStyle" TargetType="{x:Type StackPanel}">
+                <Setter Property="ContextMenu">
+                    <Setter.Value>
+                        <fluent:ContextMenu>
+                            <fluent:MenuItem Header="{lex:LocText Key=AdministrationContextMenuHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Icon="/Skins/control_panel.ico">
+                                <fluent:MenuItem Header="{lex:LocText Key=StartHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Command="{Binding StartClusterCommand}" Icon="/Skins/start.ico" />
+                                <fluent:MenuItem Header="{lex:LocText Key=StopHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Command="{Binding StopClusterCommand}" Icon="/Skins/shutdown.ico" />
+                                <fluent:MenuItem Header="{lex:LocText Key=RestartHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Command="{Binding RestartClusterCommand}" Icon="/Skins/restart.ico" />
+                            </fluent:MenuItem>
+                            <fluent:MenuItem Header="{lex:LocText Key=MonitoringHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Icon="/Skins/monitoring.ico">
+                                <fluent:MenuItem Header="{lex:LocText Key=StatisticsHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Icon="/Skins/statistics.ico" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.Tag.GetStatisticsCommand}" CommandParameter="{Binding}" />
+                            </fluent:MenuItem>
+                        </fluent:ContextMenu>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="NamedCacheCacheStackPanelStyle" TargetType="{x:Type StackPanel}">
+                <Setter Property="ContextMenu">
+                    <Setter.Value>
+                        <fluent:ContextMenu>
+                            <fluent:MenuItem Header="{lex:LocText Key=MonitoringHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Icon="/Skins/monitoring.ico">
+                                <fluent:MenuItem Header="{lex:LocText Key=StatisticsHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Icon="/Skins/statistics.ico" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.Tag.GetStatisticsCommand}" CommandParameter="{Binding}" />
+                            </fluent:MenuItem>
+                        </fluent:ContextMenu>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>  
+    </UserControl.Resources>
+    
+    <Grid x:Name="ClusterTreeviewGrid">
+        <TreeView Name="ClusterTreeView" ItemsSource="{Binding Children}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectedItemChanged">
+                    <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type fluent:MetroWindow}}, Path=DataContext.UpdateSelectedValueCommand}" CommandParameter="{Binding SelectedValue, ElementName=ClusterTreeView}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type vm:ClusterViewModel}" ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal" Style="{StaticResource ClusterStackPanelStyle}">
+                        <Image Source="/Skins/cluster24x24.ico" Width="24" Height="24" />
+                        <TextBlock Text="{Binding Name}" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type vm:FolderViewModel}" ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Skins/folder.ico" Width="24" Height="24" />
+                        <TextBlock Text="{Binding Name}" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type vm:CacheHostViewModel}">
+                    <StackPanel Orientation="Horizontal" Style="{StaticResource CacheHostStackPanelStyle}">
+                        <Image Source="/Skins/server24x24.ico" Width="24" Height="24" />
+                        <TextBlock Text="{Binding Name}" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type vm:NamedCacheViewModel}">
+                    <StackPanel Orientation="Horizontal" Style="{StaticResource NamedCacheCacheStackPanelStyle}">
+                        <Image Source="/Skins/namedCache.ico" Width="24" Height="24" />
+                        <TextBlock Text="{Binding Name}" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
+        </TreeView>
+    </Grid>
+</UserControl>
