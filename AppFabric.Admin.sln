@@ -283,14 +283,4 @@ Global
 		{8730B56B-3604-4741-B20F-B69E924299E2} = {2F30A50D-EA4A-41C5-A702-C1E2524EACD5}
 		{FA7B5F8B-E07F-4CA8-9C7A-F5042C6038CE} = {6FEDB1AE-971D-4126-96DF-5867D566829C}
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		dtLauncher_ServerPort = 9998
-		dtLauncher_WaitForBrowserTime = 3000
-		dtLauncher_AgentGuid = {DA7CFC47-3E35-4c4e-B495-534F93B28683}
-		dtLauncher_BuildBeforeLaunch = -1
-		dtLauncher_CustomAgentName = Fdg-274
-		dtLauncher_ServerName = ldc-dyna-srv2
-		dtLauncher_EnableVSTestHost = 0
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35;packages\Unity.Interception.2.1.505.0\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Logging.5.0.505.1\lib\NET35;packages\EnterpriseLibrary.ExceptionHandling.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.ExceptionHandling.Logging.5.0.505.0\lib\NET35;packages\Unity.2.1.505.2\lib\NET35
-	EndGlobalSection
 EndGlobal
