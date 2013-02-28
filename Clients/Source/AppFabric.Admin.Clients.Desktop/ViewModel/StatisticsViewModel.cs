@@ -314,12 +314,15 @@ namespace AppFabric.Admin.Clients.Desktop.ViewModel
                                 hostCounters.Add(counter.CounterName, hostCounter);
                             }
 
-                            hostCounter.Add(new HostCounter
-                                            {
-                                                MachineName = counterByHost.Key,
-                                                CounterName = counter.CounterName,
-                                                Value = counter.Value
-                                            });
+                            if (hostCounter != null)
+                            {
+                                hostCounter.Add(new HostCounter
+                                                {
+                                                    MachineName = counterByHost.Key,
+                                                    CounterName = counter.CounterName,
+                                                    Value = counter.Value
+                                                });
+                            }
                         }
                     }
 

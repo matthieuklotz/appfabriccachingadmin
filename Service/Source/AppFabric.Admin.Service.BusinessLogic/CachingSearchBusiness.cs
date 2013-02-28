@@ -15,10 +15,11 @@ namespace AppFabric.Admin.Service.BusinessLogic
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using System.Linq;
+    using System.Reflection;
     using System.Text.RegularExpressions;
     using System.Threading;
     using AppFabric.Admin.Common.Injection;
+    using AppFabric.Admin.Common.Logging;
     using AppFabric.Admin.Service.BusinessLogic.Interfaces;
     using AppFabric.Admin.Service.DataAccess.Interfaces;
     using Microsoft.ApplicationServer.Caching;
@@ -29,6 +30,10 @@ namespace AppFabric.Admin.Service.BusinessLogic
     /// </summary>
     public class CachingSearchBusiness : ICachingSearchBusiness
     {
+        private static MethodInfo getNextBachMethod;
+
+        private static object getByTagsOperationByNoneValue;
+
         /// <summary>
         /// Default datacache factory.
         /// </summary>
@@ -38,11 +43,26 @@ namespace AppFabric.Admin.Service.BusinessLogic
 
         private ICachingAdminDataRepository repository;
 
+        static CachingSearchBusiness()
+        {
+            getNextBachMethod = typeof(DataCache).GetMethod("GetNextBatch", BindingFlags.Instance | BindingFlags.NonPublic);
+            Type getByTagsOperationType = Type.GetType("Microsoft.ApplicationServer.Caching.GetByTagsOperation, Microsoft.ApplicationServer.Caching.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35");
+            Array enumValues = getByTagsOperationType.GetEnumValues();
+            if (enumValues != null && enumValues.Length > 0)
+            {
+                getByTagsOperationByNoneValue = enumValues.GetValue(0);
+            }
+        }
+
         public CachingSearchBusiness()
         {
+
+
+
             this.dataCacheFactory = new Lazy<DataCacheFactory>(InitializeFactory, LazyThreadSafetyMode.ExecutionAndPublication);
             this.namedCaches = new ConcurrentDictionary<string, DataCache>();
             this.repository = IoCManager.Container.Resolve<ICachingAdminDataRepository>();
+
         }
 
         /// <inheritdoc />
@@ -70,13 +90,13 @@ namespace AppFabric.Admin.Service.BusinessLogic
                     Regex regex = new Regex(cacheKeyPattern, RegexOptions.CultureInvariant | RegexOptions.IgnoreCase | RegexOptions.Singleline);
                     foreach (DataAccess.Datas.Region dataRegion in dataRegions)
                     {
-                        if (dataRegion == null)
+                        if (dataRegion == null || string.IsNullOrWhiteSpace(dataRegion.RegionName))
                         {
                             continue;
                         }
 
-                        IEnumerable<KeyValuePair<string, object>> objects = cache.GetObjectsInRegion(dataRegion.RegionName);
-                        if (objects != null && objects.Any())
+                        List<KeyValuePair<string, object>> objects = GetAllObjectsInRegion(cache, dataRegion.RegionName);
+                        if (objects != null && objects.Count > 0)
                         {
                             foreach (KeyValuePair<string, object> cacheItem in objects)
                             {
@@ -104,6 +124,38 @@ namespace AppFabric.Admin.Service.BusinessLogic
             }
 
             return cacheItemRemoved;
+        }
+
+        private static List<KeyValuePair<string, object>> GetAllObjectsInRegion(DataCache cache, string regionName)
+        {
+            bool hasMoreObjects = true;
+            byte[][] state = null;
+            List<KeyValuePair<string, object>> results = new List<KeyValuePair<string, object>>();
+            object[] arguments = new object[] { regionName, null, getByTagsOperationByNoneValue, null, state, hasMoreObjects };
+            try
+            {
+                while (hasMoreObjects)
+                {
+                    object callResult = getNextBachMethod.Invoke(cache, arguments);
+                    if (callResult != null)
+                    {
+                        List<KeyValuePair<string, object>> cacheObjects = callResult as List<KeyValuePair<string, object>>;
+                        if (cacheObjects != null)
+                        {
+                            results.AddRange(cacheObjects);
+                        }
+                    }
+
+                    state = (byte[][])arguments[4];
+                    hasMoreObjects = (bool)arguments[5];
+                }
+            }
+            catch (Exception exception)
+            {
+                Logger.Error("AppFabricCaching", exception.Message, exception);
+            }
+
+            return results;
         }
 
         private static DataCacheFactory InitializeFactory()
