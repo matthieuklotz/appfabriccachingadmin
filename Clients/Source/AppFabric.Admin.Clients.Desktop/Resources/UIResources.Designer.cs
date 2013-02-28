@@ -308,6 +308,15 @@ namespace AppFabric.Admin.Clients.Desktop.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Monitoring.
         /// </summary>
+        internal static string MonitoringContextMenuHeader {
+            get {
+                return ResourceManager.GetString("MonitoringContextMenuHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monitoring.
+        /// </summary>
         internal static string MonitoringHeader {
             get {
                 return ResourceManager.GetString("MonitoringHeader", resourceCulture);
@@ -492,24 +501,6 @@ namespace AppFabric.Admin.Clients.Desktop.Resources {
         internal static string StopHeader {
             get {
                 return ResourceManager.GetString("StopHeader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Send your feedback on our forums..
-        /// </summary>
-        internal static string String {
-            get {
-                return ResourceManager.GetString("String", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Let us know and we will correct it..
-        /// </summary>
-        internal static string String3 {
-            get {
-                return ResourceManager.GetString("String3", resourceCulture);
             }
         }
         

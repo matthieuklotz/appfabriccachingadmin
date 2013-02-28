@@ -15,8 +15,11 @@
                 <ResourceDictionary Source="/Skins/MainSkin.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <Style x:Key="ClusterStackPanelStyle" TargetType="{x:Type StackPanel}">
-                <Setter Property="Tag" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type fluent:MetroWindow}}, Path=DataContext}" />             
+            <Style x:Key="BaseTreeViewStackPanelStyle" TargetType="{x:Type StackPanel}">
+                <Setter Property="Tag" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type fluent:MetroWindow}}, Path=DataContext}" />
+            </Style>
+
+            <Style x:Key="ClusterStackPanelStyle" TargetType="{x:Type StackPanel}" BasedOn="{StaticResource BaseTreeViewStackPanelStyle}">
                 <Setter Property="ContextMenu">
                     <Setter.Value>
                         <fluent:ContextMenu>
@@ -25,7 +28,7 @@
                                 <fluent:MenuItem Header="{lex:LocText Key=StopHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Command="{Binding StopClusterCommand}" Icon="/Skins/shutdown.ico" />
                                 <fluent:MenuItem Header="{lex:LocText Key=RestartHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Command="{Binding RestartClusterCommand}" Icon="/Skins/restart.ico" />
                             </fluent:MenuItem>
-                            <fluent:MenuItem Header="{lex:LocText Key=MonitoringHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Icon="/Skins/monitoring.ico">
+                            <fluent:MenuItem Header="{lex:LocText Key=MonitoringContextMenuHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Icon="/Skins/monitoring.ico">
                                 <fluent:MenuItem Header="{lex:LocText Key=SearchHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Icon="/Skins/search.ico" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.Tag.SearchInClusterCommand}" CommandParameter="{Binding}" />
                                 <fluent:MenuItem Header="{lex:LocText Key=ClusterHealthHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Icon="/Skins/monitoring.ico" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.Tag.GetClusterHealthCommand}" CommandParameter="{Binding}" />
                                 <fluent:MenuItem Header="{lex:LocText Key=StatisticsHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Icon="/Skins/statistics.ico" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.Tag.GetStatisticsCommand}" CommandParameter="{Binding}" />
@@ -35,16 +38,16 @@
                 </Setter>
             </Style>
 
-            <Style x:Key="CacheHostStackPanelStyle" TargetType="{x:Type StackPanel}">
+            <Style x:Key="CacheHostStackPanelStyle" TargetType="{x:Type StackPanel}" BasedOn="{StaticResource BaseTreeViewStackPanelStyle}">
                 <Setter Property="ContextMenu">
                     <Setter.Value>
                         <fluent:ContextMenu>
                             <fluent:MenuItem Header="{lex:LocText Key=AdministrationContextMenuHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Icon="/Skins/control_panel.ico">
-                                <fluent:MenuItem Header="{lex:LocText Key=StartHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Command="{Binding StartClusterCommand}" Icon="/Skins/start.ico" />
-                                <fluent:MenuItem Header="{lex:LocText Key=StopHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Command="{Binding StopClusterCommand}" Icon="/Skins/shutdown.ico" />
-                                <fluent:MenuItem Header="{lex:LocText Key=RestartHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Command="{Binding RestartClusterCommand}" Icon="/Skins/restart.ico" />
+                                <fluent:MenuItem Header="{lex:LocText Key=StartHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Command="{Binding StartHostCommand}" Icon="/Skins/start.ico" />
+                                <fluent:MenuItem Header="{lex:LocText Key=StopHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Command="{Binding StopHostCommand}" Icon="/Skins/shutdown.ico" />
+                                <fluent:MenuItem Header="{lex:LocText Key=RestartHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Command="{Binding RestartHostCommand}" Icon="/Skins/restart.ico" />
                             </fluent:MenuItem>
-                            <fluent:MenuItem Header="{lex:LocText Key=MonitoringHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Icon="/Skins/monitoring.ico">
+                            <fluent:MenuItem Header="{lex:LocText Key=MonitoringContextMenuHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Icon="/Skins/monitoring.ico">
                                 <fluent:MenuItem Header="{lex:LocText Key=StatisticsHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Icon="/Skins/statistics.ico" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.Tag.GetStatisticsCommand}" CommandParameter="{Binding}" />
                             </fluent:MenuItem>
                         </fluent:ContextMenu>
@@ -52,20 +55,20 @@
                 </Setter>
             </Style>
 
-            <Style x:Key="NamedCacheCacheStackPanelStyle" TargetType="{x:Type StackPanel}">
+            <Style x:Key="NamedCacheCacheStackPanelStyle" TargetType="{x:Type StackPanel}"  BasedOn="{StaticResource BaseTreeViewStackPanelStyle}">
                 <Setter Property="ContextMenu">
                     <Setter.Value>
                         <fluent:ContextMenu>
-                            <fluent:MenuItem Header="{lex:LocText Key=MonitoringHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Icon="/Skins/monitoring.ico">
+                            <fluent:MenuItem Header="{lex:LocText Key=MonitoringContextMenuHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Icon="/Skins/monitoring.ico">
                                 <fluent:MenuItem Header="{lex:LocText Key=StatisticsHeader, Dict=Resources.UIResources, Assembly=AppFabric.Admin.Clients.Desktop}" Icon="/Skins/statistics.ico" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.Tag.GetStatisticsCommand}" CommandParameter="{Binding}" />
                             </fluent:MenuItem>
                         </fluent:ContextMenu>
                     </Setter.Value>
                 </Setter>
             </Style>
-        </ResourceDictionary>  
+        </ResourceDictionary>
     </UserControl.Resources>
-    
+
     <Grid x:Name="ClusterTreeviewGrid">
         <TreeView Name="ClusterTreeView" ItemsSource="{Binding Children}">
             <i:Interaction.Triggers>

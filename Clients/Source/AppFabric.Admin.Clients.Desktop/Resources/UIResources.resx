@@ -264,13 +264,10 @@ Let us know and we will correct it.</value>
   <data name="StopHeader" xml:space="preserve">
     <value>Stop</value>
   </data>
-  <data name="String" xml:space="preserve">
-    <value>Send your feedback on our forums.</value>
-  </data>
-  <data name="String3" xml:space="preserve">
-    <value>Let us know and we will correct it.</value>
-  </data>
   <data name="SupportTitle" xml:space="preserve">
     <value>Support</value>
+  </data>
+  <data name="MonitoringContextMenuHeader" xml:space="preserve">
+    <value>Monitoring</value>
   </data>
 </root>
